@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Referral System</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { max-width: 500px; margin: auto; padding: 20px; }
+        .button { padding: 10px 20px; color: #fff; background-color: #007bff; border: none; cursor: pointer; }
+        .button:disabled { background-color: #cccccc; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Referral Registration</h1>
+        <p>
+            Click the referral link below to register and see available products:
+        </p>
+        
+        <button class="button" onclick="clickReferralLink()">Click Referral Link</button>
+        
+        <div id="registration-form" style="display: none; margin-top: 20px;">
+            <label for="name">Enter your name:</label>
+            <input type="text" id="name" placeholder="Your name">
+            <button class="button" onclick="registerUser()">Register</button>
+        </div>
+        
+        <div id="thank-you-message" style="display: none; margin-top: 20px;">
+            <h2>Thank you for registering!</h2>
+            <p>Here are the available products:</p>
+            <ul id="product-list"></ul>
+        </div>
+        
+        <div id="user-list" style="margin-top: 20px;">
+            <h3>Users who clicked the referral link:</h3>
+            <ul id="clicked-users"></ul>
+        </div>
+    </div>
+
+    <script>
+        const COMMON_REFERRAL_LINK = "http://example.com/referral/PRODUCT123";
+        const products = ["Product A - $10", "Product B - $20", "Product C - $30"];
+        const clickedUsers = [];
+
+        function clickReferralLink() {
+            document.getElementById('registration-form').style.display = 'block';
+        }
+
+        function registerUser() {
+            const nameInput = document.getElementById("name");
+            const name = nameInput.value.trim();
+
+            if (name) {
+                clickedUsers.push(name);
+                nameInput.value = '';  // Clear the input field
+                document.getElementById('registration-form').style.display = 'none';
+                document.getElementById('thank-you-message').style.display = 'block';
+
+                // Display available products
+                const productList = document.getElementById("product-list");
+                productList.innerHTML = '';
+                products.forEach(product => {
+                    const li = document.createElement("li");
+                    li.textContent = product;
+                    productList.appendChild(li);
+                });
+
+                // Update list of users who clicked the referral link
+                updateClickedUsers();
+            } else {
+                alert("Please enter your name.");
+            }
+        }
+
+        function updateClickedUsers() {
+            const userList = document.getElementById("clicked-users");
+            userList.innerHTML = '';
+            clickedUsers.forEach(user => {
+                const li = document.createElement("li");
+                li.textContent = `Username: ${user}`;
+                userList.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>
